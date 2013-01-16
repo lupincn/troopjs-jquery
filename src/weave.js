@@ -25,8 +25,6 @@ define([ "require", "jquery", "troopjs-utils/getargs", "./destroy" ], function W
 	var DATA_WEAVE = DATA + WEAVE;
 	var DATA_WOVEN = DATA + WOVEN;
 	var DATA_WEAVING = DATA + WEAVING;
-	var SELECTOR_WEAVE = "[" + DATA_WEAVE + "]";
-	var SELECTOR_UNWEAVE = "[" + DATA_WEAVING + "],[" + DATA_WOVEN + "]";
 
 	/**
 	 * Generic destroy handler.
@@ -104,7 +102,9 @@ define([ "require", "jquery", "troopjs-utils/getargs", "./destroy" ], function W
 
 		$elements
 			// Reduce to only elements that can be woven
-			.filter(SELECTOR_WEAVE)
+			.filter(function (index) {
+				return $(this).attr(DATA_WEAVE) !== UNDEFINED;
+			})
 			// Iterate
 			.each(function elementIterator(index, element) {
 				// Defer weave
@@ -226,7 +226,9 @@ define([ "require", "jquery", "troopjs-utils/getargs", "./destroy" ], function W
 
 		$elements
 			// Reduce to only elements that can be unwoven
-			.filter(SELECTOR_UNWEAVE)
+			.filter(function (index) {
+				return $(this).attr(DATA_WOVEN) !== UNDEFINED;
+			})
 			// Iterate
 			.each(function elementIterator(index, element) {
 				// Defer unweave
