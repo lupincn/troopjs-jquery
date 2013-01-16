@@ -99,12 +99,20 @@ define([ "require", "jquery", "troopjs-utils/getargs", "./destroy" ], function W
 	$.fn[WEAVE] = function weave(/* arg, arg, arg */) {
 		var widgets = [];
 		var i = 0;
-		var $elements = $(this);
 		var arg = arguments;
+		var $els = $(this);
+		var len = $els.length;
+		var elements = [];
 
-		$elements
-			// Reduce to only elements that can be woven
-			.filter(SELECTOR_WEAVE)
+		// Reduce to only elements that can be woven
+		for (var i = 0; i < len; i++) {
+			var $el = $($els[i]);
+			if ($el.data(SELECTOR_WEAVE)) {
+				elements.push($el);
+			}
+		}
+
+		$(elements)
 			// Iterate
 			.each(function elementIterator(index, element) {
 				// Defer weave
